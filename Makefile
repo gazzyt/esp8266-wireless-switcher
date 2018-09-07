@@ -11,18 +11,17 @@
 BUILD_BASE	= build
 FW_BASE		= firmware
 
-# Base directory for the compiler
-XTENSA_TOOLS_ROOT ?= /opt/xtensa-lx106-elf/bin
+ESP_OPEN_SDK_ROOT ?= /mnt/c/dev/gary/esp8266/esp-open-sdk
 
-#Extra Tensilica includes from the ESS VM
-SDK_EXTRA_INCLUDES ?= /opt/Espressif/include
+# Base directory for the compiler
+XTENSA_TOOLS_ROOT ?= $(ESP_OPEN_SDK_ROOT)/xtensa-lx106-elf/bin
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /opt/Espressif/ESP8266_SDK
+SDK_BASE	?= $(ESP_OPEN_SDK_ROOT)/sdk
 
 #Esptool.py path and port
-ESPTOOL		?= /home/esp8266/Share/esp_iot_sdk/esptool.py
-ESPPORT		?= /dev/ttyUSB0
+ESPTOOL		?= $(ESP_OPEN_SDK_ROOT)/esptool/esptool.py
+ESPPORT		?= /dev/ttyS5
 
 # name for the target project
 TARGET		= httpd
@@ -31,11 +30,10 @@ TARGET		= httpd
 MODULES		= driver user
 EXTRA_INCDIR	= include \
 		. \
-		lib/heatshrink/ \
-		$(SDK_EXTRA_INCLUDES)
+		lib/heatshrink/
 
 # libraries used in this project, mainly provided by the SDK
-LIBS		= c gcc hal phy net80211 lwip wpa main
+LIBS		= c gcc hal phy net80211 lwip wpa main pp
 
 # compiler flags using during compilation of source files
 CFLAGS		= -Os -ggdb -std=c99 -Werror -Wpointer-arith -Wundef -Wall -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH
